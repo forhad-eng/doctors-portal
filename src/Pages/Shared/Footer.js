@@ -43,7 +43,7 @@ const Footer = () => {
                     </Link>
                 </div>
             </div>
-            <p className="text-center mt-20">Copyright 2022 All Rights Reserved</p>
+            <p className="text-center mt-20">&copy;Copyright 2022 All Rights Reserved</p>
         </footer>
     )
 }
