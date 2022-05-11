@@ -6,7 +6,7 @@ const AppointmentModal = ({ treatment, setTreatment, date }) => {
 
     const formHandle = e => {
         e.preventDefault()
-        const slot = e.target.slot.value
+        // const slot = e.target.slot.value
         setTreatment(null)
     }
 
