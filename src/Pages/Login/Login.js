@@ -1,5 +1,9 @@
 import React from 'react'
-import { useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth'
+import {
+    useSendPasswordResetEmail,
+    useSignInWithEmailAndPassword,
+    useSignInWithGoogle
+} from 'react-firebase-hooks/auth'
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { auth } from '../../firebase.init'
@@ -8,6 +12,7 @@ import LoadingSpinner from '../Shared/LoadingSpinner'
 const Login = () => {
     const [signInWithEmailAndPassword, eUser, eLoading, eErr] = useSignInWithEmailAndPassword(auth)
     const [signInWithGoogle, gUser, gLoading, gErr] = useSignInWithGoogle(auth)
+    const [sendPasswordResetEmail, sending, sErr] = useSendPasswordResetEmail(auth)
     const {
         register,
         handleSubmit,
@@ -34,6 +39,20 @@ const Login = () => {
     const onSubmit = (data, e) => {
         signInWithEmailAndPassword(data.email, data.pass)
         e.target.reset()
+    }
+
+    const passResetHandle = () => {
+        const email = window.prompt('Enter your email')
+        if (email) {
+            if (/\S+@\S+\.\S+/.test(email)) {
+                sendPasswordResetEmail(email)
+                alert('Email sent!')
+            } else {
+                alert('Invalid email!')
+            }
+        } else {
+            alert('Please enter your email!')
+        }
     }
 
     return (
@@ -80,9 +99,9 @@ const Login = () => {
                                 <p className="text-red-500">{errors.pass.message}</p>
                             )}
                             <label class="label">
-                                <Link to="#" class="label-text-alt link link-hover">
+                                <span onClick={passResetHandle} class="label-text-alt link link-hover">
                                     Forgot password?
-                                </Link>
+                                </span>
                             </label>
                         </div>
                         {errorMessage}

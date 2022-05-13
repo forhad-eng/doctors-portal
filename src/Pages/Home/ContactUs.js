@@ -16,7 +16,11 @@ const ContactUs = () => {
                         <input type="text" placeholder="Subject" class="input input-bordered" />
                     </div>
                     <div class="form-control">
-                        <textarea rows="5" className="rounded-lg pl-3 pt-2" placeholder="Your message"></textarea>
+                        <textarea
+                            rows="4"
+                            className="rounded-lg pl-3 pt-2 text-sm"
+                            placeholder="Your message"
+                        ></textarea>
                     </div>
                     <div class="mt-6 mx-auto">
                         <PrimaryButton>Submit</PrimaryButton>

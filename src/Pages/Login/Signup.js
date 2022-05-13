@@ -40,7 +40,7 @@ const Signup = () => {
             <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl">
                 <div className="card-body">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <h3 className="text-2xl text-center text-accent">Sing Up</h3>
+                        <h3 className="text-2xl text-center text-accent">Sign Up</h3>
                         <div class="form-control">
                             <label class="label">
                                 <span class="label-text">Name</span>
@@ -94,14 +94,9 @@ const Signup = () => {
                             {errors?.pass?.type === 'minLength' && (
                                 <p className="text-red-500">{errors.pass.message}</p>
                             )}
-                            <label class="label">
-                                <Link to="#" class="label-text-alt link link-hover">
-                                    Forgot password?
-                                </Link>
-                            </label>
                         </div>
                         {errorMessage}
-                        <div class="form-control">
+                        <div class="form-control mt-3">
                             <button class="btn btn-accent">Sign Up</button>
                         </div>
                         <p className="text-center">
