@@ -3,14 +3,39 @@ import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../firebase.init'
 
-const AppointmentModal = ({ treatment, setTreatment, date }) => {
+const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
     const [user] = useAuthState(auth)
     const { name, slots } = treatment
 
     const formHandle = e => {
         e.preventDefault()
-        // const slot = e.target.slot.value
-        setTreatment(null)
+
+        const booking = {
+            patient: e.target.email.value,
+            treatment: name,
+            treatmentId: treatment._id,
+            date: e.target.date.value,
+            slot: e.target.slot.value,
+            phone: e.target.phone.value
+        }
+
+        fetch('http://localhost:5000/booking', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(booking)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message)
+                } else {
+                    alert(data.message)
+                }
+                refetch()
+                setTreatment(null)
+            })
     }
 
     return (
@@ -25,6 +50,7 @@ const AppointmentModal = ({ treatment, setTreatment, date }) => {
                     <form onSubmit={e => formHandle(e)} className="grid grid-cols-1 gap-3 justify-items-center mt-2">
                         <input
                             type="text"
+                            name="date"
                             disabled
                             value={format(date, 'PP')}
                             class="input input-bordered w-full max-w-xs"
@@ -40,8 +66,19 @@ const AppointmentModal = ({ treatment, setTreatment, date }) => {
                             value={user?.displayName}
                             class="input input-bordered w-full max-w-xs"
                         />
-                        <input type="email" disabled value={user?.email} class="input input-bordered w-full max-w-xs" />
-                        <input type="text" placeholder="Phone number" class="input input-bordered w-full max-w-xs" />
+                        <input
+                            type="email"
+                            name="email"
+                            disabled
+                            value={user?.email}
+                            class="input input-bordered w-full max-w-xs"
+                        />
+                        <input
+                            type="text"
+                            name="phone"
+                            placeholder="Phone number"
+                            class="input input-bordered w-full max-w-xs"
+                        />
                         <input type="submit" value="Submit" class="btn btn-primary w-full max-w-xs" />
                     </form>
                 </div>
