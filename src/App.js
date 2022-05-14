@@ -1,5 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
 import Appointment from './Pages/Appointment/Appointment'
+import Dashboard from './Pages/Dashboard/Dashboard'
+import MyAppointment from './Pages/Dashboard/MyAppointment'
+import MyReview from './Pages/Dashboard/MyReview'
 import Home from './Pages/Home/Home'
 import Login from './Pages/Login/Login'
 import RequireAuth from './Pages/Login/RequireAuth'
@@ -21,6 +24,17 @@ function App() {
                         </RequireAuth>
                     }
                 />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <RequireAuth>
+                            <Dashboard />
+                        </RequireAuth>
+                    }
+                >
+                    <Route index element={<MyAppointment />} />
+                    <Route path="review" element={<MyReview />} />
+                </Route>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Signup />} />
             </Routes>
