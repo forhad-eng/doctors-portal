@@ -3,6 +3,7 @@ import { useCreateUserWithEmailAndPassword, useSignInWithGoogle, useUpdateProfil
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../../firebase.init'
+import useToken from '../../hooks/useToken'
 import LoadingSpinner from '../Shared/LoadingSpinner'
 
 const Signup = () => {
@@ -15,6 +16,7 @@ const Signup = () => {
         formState: { errors }
     } = useForm()
     const navigate = useNavigate()
+    const [token] = useToken(eUser || gUser)
 
     let errorMessage
     if (eErr || gErr) {
@@ -25,7 +27,7 @@ const Signup = () => {
         return <LoadingSpinner />
     }
 
-    if (eUser || gUser) {
+    if (token) {
         navigate('/')
     }
 

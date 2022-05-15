@@ -7,6 +7,7 @@ import {
 import { useForm } from 'react-hook-form'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { auth } from '../../firebase.init'
+import useToken from '../../hooks/useToken'
 import LoadingSpinner from '../Shared/LoadingSpinner'
 
 const Login = () => {
@@ -20,19 +21,20 @@ const Login = () => {
     } = useForm()
     const navigate = useNavigate()
     const location = useLocation()
+    const [token] = useToken(eUser || gUser)
 
     let errorMessage
     const from = location.state?.from?.pathname || '/'
 
-    if (eErr || gErr) {
+    if (eErr || gErr || sErr) {
         errorMessage = <p className="text-red-500">{eErr?.message || gErr?.message}</p>
     }
 
-    if (eLoading || gLoading) {
+    if (eLoading || gLoading || sending) {
         return <LoadingSpinner />
     }
 
-    if (eUser || gUser) {
+    if (token) {
         navigate(from, { replace: true })
     }
 
