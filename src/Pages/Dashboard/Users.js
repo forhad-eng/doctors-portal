@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import LoadingSpinner from '../Shared/LoadingSpinner'
 
 const Users = () => {
-    const { data, isLoading } = useQuery('users', () =>
+    const { data, isLoading, refetch } = useQuery('users', () =>
         fetch('http://localhost:5000/user', {
             headers: { authorization: `Bearer ${localStorage.getItem('accessToken')}` }
         }).then(res => res.json())
@@ -23,6 +23,7 @@ const Users = () => {
             .then(res => res.json())
             .then(data => {
                 if (data.modifiedCount > 0) {
+                    refetch()
                     alert('Make an admin success')
                 } else {
                     alert(data.message)
@@ -47,15 +48,15 @@ const Users = () => {
                             <th>{index + 1}</th>
                             <td>{user.email}</td>
                             <td>
-                                {user.role !== 'admin' && (
+                                {user.role !== 'admin' ? (
                                     <button onClick={() => makeAdmin(user.email)} className="btn btn-xs">
                                         Make admin
                                     </button>
+                                ) : (
+                                    'ADMIN'
                                 )}
                             </td>
-                            <td>
-                                <button className="btn btn-xs">Remove user</button>
-                            </td>
+                            <td>{user.role !== 'admin' && <button className="btn btn-xs">Remove user</button>}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -28,7 +28,7 @@ const MyAppointment = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((book, index) => (
+                    {data?.map((book, index) => (
                         <tr>
                             <th>{index + 1}</th>
                             <td>{book?.treatment}</td>
