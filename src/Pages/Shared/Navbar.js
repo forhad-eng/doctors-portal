@@ -1,11 +1,18 @@
 import { signOut } from 'firebase/auth'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { auth } from '../../firebase.init'
 
 const Navbar = () => {
     const [user] = useAuthState(auth)
+    const navigate = useNavigate()
+
+    const signOutHandler = () => {
+        signOut(auth)
+        localStorage.removeItem('accessToken')
+        navigate('/')
+    }
 
     const menuItems = (
         <>
@@ -28,7 +35,7 @@ const Navbar = () => {
             )}
             {user ? (
                 <li>
-                    <button onClick={() => signOut(auth)}>Sign Out</button>
+                    <button onClick={signOutHandler}>Sign Out</button>
                 </li>
             ) : (
                 <li>
@@ -37,6 +44,7 @@ const Navbar = () => {
             )}
         </>
     )
+
     return (
         <div>
             <div class="navbar flex justify-between bg-base-100">

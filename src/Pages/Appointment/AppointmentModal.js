@@ -1,6 +1,7 @@
 import { format } from 'date-fns'
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { toast } from 'react-toastify'
 import { auth } from '../../firebase.init'
 
 const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
@@ -22,18 +23,19 @@ const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
         fetch('http://localhost:5000/booking', {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                'content-type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
             body: JSON.stringify(booking)
         })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    alert(data.message)
+                    toast.success(data.message)
+                    refetch()
                 } else {
-                    alert(data.message)
+                    toast.error(data.message)
                 }
-                refetch()
                 setTreatment(null)
             })
     }
