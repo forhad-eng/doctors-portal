@@ -13,7 +13,7 @@ import Login from './Pages/Login/Login'
 import RequireAdmin from './Pages/Login/RequireAdmin'
 import RequireAuth from './Pages/Login/RequireAuth'
 import Signup from './Pages/Login/Signup'
-import Footer from './Pages/Shared/Footer'
+import Review from './Pages/Review/Review'
 import Navbar from './Pages/Shared/Navbar'
 
 function App() {
@@ -23,6 +23,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/review" element={<Review/>} />
                 <Route
                     path="/appointment"
                     element={
@@ -69,7 +70,6 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Signup />} />
             </Routes>
-            <Footer />
             <ToastContainer />
         </div>
     )
