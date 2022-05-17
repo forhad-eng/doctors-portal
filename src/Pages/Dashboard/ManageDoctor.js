@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from 'react-query'
 import LoadingSpinner from '../Shared/LoadingSpinner'
+import DeleteConfirmModal from './DeleteConfirmModal'
 
 const ManageDoctor = () => {
+    const [deletingDoctor, setDeletingDoctor] = useState(null)
     const {
         data: doctors,
         isLoading,
@@ -47,13 +49,26 @@ const ManageDoctor = () => {
                                 <td>{doctor?.name}</td>
                                 <td>{doctor?.specialty}</td>
                                 <td>
-                                    <button className="btn btn-xs btn-error">Remove</button>
+                                    <label
+                                        onClick={() => setDeletingDoctor(doctor)}
+                                        for="delete-confirm-modal"
+                                        class="btn btn-xs btn-error"
+                                    >
+                                        Remove
+                                    </label>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </div>
+            {deletingDoctor && (
+                <DeleteConfirmModal
+                    deletingDoctor={deletingDoctor}
+                    setDeletingDoctor={setDeletingDoctor}
+                    refetch={refetch}
+                />
+            )}
         </div>
     )
 }
