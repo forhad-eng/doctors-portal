@@ -42,6 +42,12 @@ const MyAppointment = () => {
                                         <button className="btn btn-sm btn-primary">Pay</button>
                                     </Link>
                                 )}
+                                {book.price && book.paid && (
+                                    <div>
+                                        <p className="text-success">Paid</p>
+                                        <p className="text-success">Transaction Id: {book.transactionId}</p>
+                                    </div>
+                                )}
                             </td>
                         </tr>
                     ))}

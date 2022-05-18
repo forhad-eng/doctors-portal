@@ -1,10 +1,16 @@
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import LoadingSpinner from '../Shared/LoadingSpinner'
+import CheckoutForm from './CheckoutForm'
 
 const Payment = () => {
     const { id } = useParams()
+    const stripePromise = loadStripe(
+        'pk_test_51L0VcfAnKHpPDONQvKZOdQdxd6pmUAxkviJRpt94NGZyOn1jVgDBdg6aGIjrP8gw4E5oGLGTpMHhjW2Jjacaroie00lZkaxl0c'
+    )
 
     const { data, isLoading } = useQuery(['service', id], () =>
         fetch(`http://localhost:5000/booking/${id}`, {
@@ -14,11 +20,11 @@ const Payment = () => {
         }).then(res => res.json())
     )
 
-    const { patientName, treatment, price } = data?.booking
-
     if (isLoading) {
         return <LoadingSpinner />
     }
+
+    const { patientName, treatment, price } = data.booking
 
     return (
         <div className="pl-10">
@@ -32,7 +38,11 @@ const Payment = () => {
                 </div>
             </div>
             <div class="card max-w-md w-1/2 bg-base-100 shadow-xl">
-                <div class="card-body"></div>
+                <div class="card-body">
+                    <Elements stripe={stripePromise}>
+                        <CheckoutForm booking={data.booking} />
+                    </Elements>
+                </div>
             </div>
         </div>
     )
