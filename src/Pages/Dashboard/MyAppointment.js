@@ -1,6 +1,7 @@
 import React from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 import { auth } from '../../firebase.init'
 import LoadingSpinner from '../Shared/LoadingSpinner'
 
@@ -25,6 +26,7 @@ const MyAppointment = () => {
                         <th>Service</th>
                         <th>Date</th>
                         <th>Slot</th>
+                        <th>Payment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +36,13 @@ const MyAppointment = () => {
                             <td>{book?.treatment}</td>
                             <td>{book?.date}</td>
                             <td>{book?.slot}</td>
+                            <td>
+                                {book.price && !book.paid && (
+                                    <Link to={`/dashboard/payment/${book._id}`}>
+                                        <button className="btn btn-sm btn-primary">Pay</button>
+                                    </Link>
+                                )}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

@@ -6,18 +6,20 @@ import { auth } from '../../firebase.init'
 
 const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
     const [user] = useAuthState(auth)
-    const { name, slots } = treatment
+    const { name, slots, price } = treatment
 
     const formHandle = e => {
         e.preventDefault()
 
         const booking = {
             patient: e.target.email.value,
+            patientName: e.target.name.value,
             treatment: name,
             treatmentId: treatment._id,
             date: e.target.date.value,
             slot: e.target.slot.value,
-            phone: e.target.phone.value
+            phone: e.target.phone.value,
+            price
         }
 
         fetch('http://localhost:5000/booking', {
@@ -57,13 +59,14 @@ const AppointmentModal = ({ treatment, setTreatment, date, refetch }) => {
                             value={format(date, 'PP')}
                             class="input input-bordered w-full max-w-xs"
                         />
-                        <select class="input input-bordered w-full max-w-xs" name="slot">
+                        <select name="slot" class="input input-bordered w-full max-w-xs">
                             {slots.map(slot => (
                                 <option value={slot}>{slot}</option>
                             ))}
                         </select>
                         <input
                             type="text"
+                            name='name'
                             disabled
                             value={user?.displayName}
                             class="input input-bordered w-full max-w-xs"
